@@ -19,9 +19,9 @@ function checkGuess() {
             document.getElementById("best-score").innerText = bestScore;
         }
     } else if (guess > secretNumber) {
-        document.getElementById("result").innerText = "Too High!";
+        document.getElementById("result").innerText = "Over the limit!";
     } else {
-        document.getElementById("result").innerText = "Too Low!";
+        document.getElementById("result").innerText = "Below the limit!";
     }
 }
 
