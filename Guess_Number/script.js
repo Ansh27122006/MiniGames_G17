@@ -12,7 +12,7 @@ function checkGuess() {
         score = 100 - attempts * 2;
         if (score < 0) score = 0;
         document.getElementById("score").innerText = score;
-        document.getElementById("result").innerText = `Correct! The number was ${secretNumber}`;
+        document.getElementById("result").innerText = `Accurate! The number was ${secretNumber}`;
 
         if (score > bestScore) {
             bestScore = score;
