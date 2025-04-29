@@ -2,7 +2,7 @@ let userScore = 0;
 let compScore = 0;
 
 function play(userChoice) {
-  const choices = ['stone', 'paper', 'scissors'];
+  const choices = ['Rock', 'paper', 'scissors'];
   const compChoice = choices[Math.floor(Math.random() * choices.length)];
 
   let message = '';
@@ -10,8 +10,8 @@ function play(userChoice) {
   if (userChoice === compChoice) {
     message = `Draw! Both chose ${userChoice}`;
   } else if (
-    (userChoice === 'stone' && compChoice === 'scissors') ||
-    (userChoice === 'paper' && compChoice === 'stone') ||
+    (userChoice === 'Rock' && compChoice === 'scissors') ||
+    (userChoice === 'paper' && compChoice === 'Rock') ||
     (userChoice === 'scissors' && compChoice === 'paper')
   ) {
     userScore++;
