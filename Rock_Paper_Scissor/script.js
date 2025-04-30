@@ -18,7 +18,7 @@ function play(userChoice) {
     message = `Congratulations You Win! ${userChoice} beats ${compChoice}`;
   } else {
     compScore++;
-    message = `You Lose! ${compChoice} beats ${userChoice}`;
+    message = `You’re defeated! ${compChoice} beats ${userChoice}`;
   }
 
   document.getElementById('message').innerText = message;
