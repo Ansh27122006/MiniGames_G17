@@ -15,7 +15,7 @@ function play(userChoice) {
     (userChoice === 'scissors' && compChoice === 'paper')
   ) {
     userScore++;
-    message = `You Win! ${userChoice} beats ${compChoice}`;
+    message = `Congratulations You Win! ${userChoice} beats ${compChoice}`;
   } else {
     compScore++;
     message = `You Lose! ${compChoice} beats ${userChoice}`;
