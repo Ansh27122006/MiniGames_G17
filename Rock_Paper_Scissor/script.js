@@ -8,7 +8,7 @@ function play(userChoice) {
   let message = '';
 
   if (userChoice === compChoice) {
-    message = `Draw! Both chose ${userChoice}`;
+    message = `Tie! Both chose ${userChoice}`;
   } else if (
     (userChoice === 'Rock' && compChoice === 'scissors') ||
     (userChoice === 'paper' && compChoice === 'Rock') ||
