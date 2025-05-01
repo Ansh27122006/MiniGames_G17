@@ -2,12 +2,14 @@ let userScore = 0;
 let compScore = 0;
 
 function play(userChoice) {
+
   const choices = ['Rock', 'paper', 'scissors'];
   const compChoice = choices[Math.floor(Math.random() * choices.length)];
 
   let message = '';
 
   if (userChoice === compChoice) {
+
     message = `Tie! Both chose ${userChoice}`;
   } else if (
     (userChoice === 'Rock' && compChoice === 'scissors') ||
@@ -19,6 +21,7 @@ function play(userChoice) {
   } else {
     compScore++;
     message = `You’re defeated! ${compChoice} beats ${userChoice}`;
+
   }
 
   document.getElementById('message').innerText = message;

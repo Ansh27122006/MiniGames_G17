@@ -12,16 +12,16 @@ function checkGuess() {
         score = 100 - attempts * 2;
         if (score < 0) score = 0;
         document.getElementById("score").innerText = score;
-        document.getElementById("result").innerText = `Correct! The number was ${secretNumber}`;
+        document.getElementById("result").innerText = `Accurate! The number was ${secretNumber}`;
 
         if (score > bestScore) {
             bestScore = score;
             document.getElementById("best-score").innerText = bestScore;
         }
     } else if (guess > secretNumber) {
-        document.getElementById("result").innerText = "Too High!";
+        document.getElementById("result").innerText = "Over the limit!";
     } else {
-        document.getElementById("result").innerText = "Too Low!";
+        document.getElementById("result").innerText = "Below the limit!";
     }
 }
 
