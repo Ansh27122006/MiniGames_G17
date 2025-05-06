@@ -1,0 +1,16 @@
+name: Windows Workflow Example
+
+on: push
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run a Windows command
+        run: |
+          echo Hello from Windows!
+          dir
