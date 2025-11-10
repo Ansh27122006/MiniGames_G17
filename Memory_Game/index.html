@@ -1,18 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Memory Card Game</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Memory Flip Game</title>
+    <style>
+      :root {
+        --card-size: 90px;
+        --grid-gap: 15px;
+        --bg-gradient: linear-gradient(135deg, #7b4397, #dc2430);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: var(--bg-gradient);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff;
+      }
+      h1 {
+        margin-bottom: 10px;
+        font-size: 2rem;
+      }
+      #game {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
+        gap: var(--grid-gap);
+        justify-content: center;
+        align-content: center;
+        max-width: 420px;
+      }
+      .card {
+        width: var(--card-size);
+        height: var(--card-size);
+        perspective: 1000px;
+        cursor: pointer;
+      }
+      .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+      }
+      .flipped .card-inner {
+        transform: rotateY(180deg);
+      }
+      .card-front,
+      .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+      }
+      .card-front {
+        background: #fff2;
+        border: 2px solid #fff4;
+      }
+      .card-back {
+        background: #fff;
+        color: #333;
+        transform: rotateY(180deg);
+      }
+      #controls {
+        margin-top: 20px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+      button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        background: #fff3;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background: #fff5;
+      }
+      @keyframes celebrate {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+      #message {
+        margin-top: 15px;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
-    <h1>Memory Cards</h1>
-    <div class="grid-container">
+    <h1>Memory Flip Game</h1>
+    <div id="game"></div>
+    <div id="controls">
+      <button id="restart">Restart</button>
+      <div id="status"></div>
     </div>
-    <p>Score: <span class="score"></span></p>
-    <div class="actions">
-        <button onclick="restart()">Restart</button>
-    </div>
-    <script src="index.js"></script>
+    <div id="message"></div>
+    <script>
+      const emojis = ["🍎", "🍌", "🍒", "🍇", "🍋", "🍉", "🥝", "🍓"];
+      let gameGrid = [...emojis, ...emojis];
+
+      const game = document.getElementById("game");
+      const restartBtn = document.getElementById("restart");
+      const message = document.getElementById("message");
+      const status = document.getElementById("status");
+
+      let flippedCards = [];
+      let matchedPairs = 0;
+      let moves = 0;
+
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function createBoard() {
+        game.innerHTML = "";
+        shuffle(gameGrid);
+        gameGrid.forEach((emoji) => {
+          const card = document.createElement("div");
+          card.classList.add("card");
+          card.innerHTML = `
+          <div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back">${emoji}</div>
+          </div>`;
+          card.addEventListener("click", handleFlip);
+          game.appendChild(card);
+        });
+        matchedPairs = 0;
+        moves = 0;
+        message.textContent = "";
+        updateStatus();
+      }
+
+      function handleFlip(e) {
+        const card = e.currentTarget;
+        if (flippedCards.length < 2 && !card.classList.contains("flipped")) {
+          card.classList.add("flipped");
+          flippedCards.push(card);
+          if (flippedCards.length === 2) {
+            moves++;
+            checkMatch();
+          }
+        }
+      }
+
+      function checkMatch() {
+        const [card1, card2] = flippedCards;
+        const emoji1 = card1.querySelector(".card-back").textContent;
+        const emoji2 = card2.querySelector(".card-back").textContent;
+
+        if (emoji1 === emoji2) {
+          matchedPairs++;
+          flippedCards = [];
+          if (matchedPairs === emojis.length) {
+            message.textContent = "🎉 You Win! 🎉";
+            message.style.animation = "celebrate 1s ease infinite";
+          }
+        } else {
+          setTimeout(() => {
+            card1.classList.remove("flipped");
+            card2.classList.remove("flipped");
+            flippedCards = [];
+          }, 800);
+        }
+        updateStatus();
+      }
+
+      function updateStatus() {
+        status.textContent = `Moves: ${moves}`;
+      }
+
+      restartBtn.addEventListener("click", createBoard);
+
+      createBoard();
+    </script>
   </body>
 </html>
